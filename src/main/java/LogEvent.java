@@ -51,7 +51,7 @@ public class LogEvent implements RequestHandler<SNSEvent, Object> {
                 Item itemPut = new Item()
                         .withPrimaryKey("id", request.getRecords().get(0).getSNS().getMessage())
                         .withString("token", context.getAwsRequestId())
-                        .withNumber("passwordTokenExpiry", unixTime);
+                        .withNumber("ttl", unixTime);
 
                 table.putItem(itemPut);
 
