@@ -27,7 +27,7 @@ after_success:
   - mkdir codedeployLamda_artifact
   - mkdir scripts
   - ls -al
-  - mv build/distributions/ROOT-1.0-SNAPSHOT.zip  codedeployLamda_artifact/
+  - mv csye6225-fall2018-lambda/build/distributions/LogEvent-1.0-SNAPSHOT.zip  codedeployLamda_artifact/
   - ls -al
   - pwd
   - cd codedeployLamda_artifact
@@ -36,7 +36,7 @@ after_success:
   - cd ..
   - pwd
   - ls -al
-  - aws lambda update-function-code --function-name MyLambdaFunction --zip-file fileb://~/build/theOfficialVarunMurthy/csye6225-fall2018-lambda/codedeployLamda_artifact/ROOT-1.0-SNAPSHOT.zip --publish --region us-east-1
+  - aws lambda update-function-code --function-name MyLambdaFunction --zip-file fileb://codedeployLamda_artifact/LogEvent-1.0-SNAPSHOT.zip --publish --region us-east-1
 
 deploy:
   - provider: s3
