@@ -8,6 +8,7 @@ install: true
 
 script:
   - pwd
+  - ls -al
   - ./gradlew buildzip
   - cd build/distributions
   - ls -al
