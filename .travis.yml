@@ -1,0 +1,48 @@
+
+language: java
+jdk:
+  - oraclejdk8
+
+sudo: false
+install: true
+
+script:
+  - pwd
+  - ls -al
+  - chmod +x gradle/wrapper/gradle-wrapper.jar
+  - ./gradlew buildzip
+  - cd build/distributions
+  - ls -al
+  - cd ../../..
+  - pwd
+  - ls -al
+
+before_install:
+  - pip install --user awscli
+  - aws configure set default.region us-east-1
+
+after_success:
+  - pwd
+  - ls -al
+  - mkdir codedeployLamda_artifact
+  - mkdir scripts
+  - ls -al
+  - mv csye6225-fall2018-lambda/build/distributions/LogEvent-1.0-SNAPSHOT.zip  codedeployLamda_artifact/
+  - ls -al
+  - pwd
+  - cd codedeployLamda_artifact
+  - ls -al
+  - pwd
+  - cd ..
+  - pwd
+  - ls -al
+  - aws lambda update-function-code --function-name MyLambdaFunction --zip-file fileb://codedeployLamda_artifact/LogEvent-1.0-SNAPSHOT.zip --publish --region us-east-1
+
+deploy:
+  - provider: s3
+    local_dir: codedeployLamda_artifact
+    bucket: $s3_bucket
+    region: us-east-1
+    skip_cleanup: true
+    access_key_id: $access_key_id
+    secret_access_key: $secret_access_key
