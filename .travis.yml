@@ -8,6 +8,8 @@ install: true
 
 script:
   - pwd
+  - ls -al
+  - chmod +x gradle/wrapper/gradle-wrapper.jar
   - ./gradlew buildzip
   - cd build/distributions
   - ls -al
