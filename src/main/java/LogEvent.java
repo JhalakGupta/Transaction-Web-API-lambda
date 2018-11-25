@@ -23,7 +23,7 @@ import java.util.Calendar;
 public class LogEvent implements RequestHandler<SNSEvent, Object> {
 
     static DynamoDB dynamoDB;
-
+    private String domainName= System.getenv("domainName");
 
     public Object handleRequest(SNSEvent request, Context context) {
 
@@ -56,7 +56,7 @@ public class LogEvent implements RequestHandler<SNSEvent, Object> {
                 table.putItem(itemPut);
 
                 try {
-                    String FROM = "donotreply@csye6225-fall2018-janhaviu.me";
+                   String FROM = "donotreply@"+domainName;//"donotreply@csye6225-fall2018-janhaviu.me";
                     String TO = request.getRecords().get(0).getSNS().getMessage();
                     String token = request.getRecords().get(0).getSNS().getMessageId();
                     AmazonSimpleEmailService client =
@@ -76,7 +76,7 @@ public class LogEvent implements RequestHandler<SNSEvent, Object> {
                                                                                     "UTF-8")
                                                                             .withData(
                                                                                     "Please click on the below link to reset the password<br/>"+
-                                                                                            "<p><a href='#'>https://csye6225-fall2018-janhaviu.me/reset?email="+TO+"&token="+token+"</a></p>"))
+                                                                                            "<p><a href='#'>https://"+domainName+"/reset?email="+TO+"&token="+token+"</a></p>"))
                                             )
                                             .withSubject(
                                                     new Content().withCharset("UTF-8")
